@@ -15,10 +15,17 @@ export class UserService {
       'Content-Type': 'application/json'
     });
 
-    console.log(data);
-
-
     return this.http.post<any>("https://localhost:7223/api/register", data, { headers: headers })
+  }
+
+  login(data: any) : Observable<any> {
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.post<any>("https://localhost:7223/api/login", data, { headers: headers })
+
   }
 
 }
