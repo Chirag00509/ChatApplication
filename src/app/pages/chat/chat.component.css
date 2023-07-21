@@ -1,0 +1,150 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Bhai+2&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Baloo Bhai 2', cursive;
+}
+
+body {
+  width: 100vw;
+  background-color: #f8f8f8;
+}
+
+.main-container {
+  display: flex;
+  height: 90vh;
+}
+
+.container {
+  background: #fff;
+  width: 100%;
+}
+
+.header {
+  padding: 20px;
+  background: #f1f1f1;
+  display: flex;
+  height: 10vh;
+  align-items: center;
+}
+
+.header h1 {
+  text-transform: uppercase;
+  font-size: 20px;
+  color: #444;
+  margin-left: 10px;
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+input {
+  width: 70%;
+  border: none;
+  padding: 14px;
+  font-size: 15px;
+  outline: none;
+  background: #f1f1f1;
+}
+
+.btn {
+  border: 1px solid green;
+  border-radius: 10px;
+  font-size: 15px;
+  margin-left: 15px;
+  font-weight: 600;
+  padding: 10px;
+  background: none;
+  cursor: pointer;
+  color: green;
+}
+
+.btn:hover {
+  background: green;
+  color: white;
+}
+
+.message {
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 40px;
+  max-width: 200px;
+  position: relative;
+}
+
+.text {
+  height: 500px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding-top: 35px;
+}
+
+.incoming {
+  background: #8F8BE8;
+  color: #fff;
+  margin-right: auto;
+}
+
+.outgoing {
+  background: #73c2fb;
+  color: #fff;
+  margin-left: auto;
+}
+
+.message h4 {
+  position: absolute;
+  top: -20px;
+  left: 0;
+  color: #333;
+  font-size: 12px;
+}
+
+.center {
+  text-align: center;
+  color: #b6b2b2;
+  margin-top: 2px;
+}
+
+.user-list {
+  width: 300px;
+  height: 100%;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.user-card {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.user-card:last-child {
+  border-bottom: none;
+}
+
+.user-card:hover {
+  background-color: #e6e6e6;
+  cursor: pointer;
+}
+
+.user-card strong {
+  font-weight: bold;
+}
+
+.user-card p {
+  margin: 5px 0;
+}
+
+.user-list-container {
+  margin-left: 20px;
+}

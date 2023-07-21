@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
       if(res) {
         localStorage.setItem("authToken", res.token);
         alert("You have successfully login");
-        this.router.navigateByUrl("");
+        this.router.navigateByUrl("/chat");
       }
     }, (error) => {
       if (error instanceof HttpErrorResponse) {

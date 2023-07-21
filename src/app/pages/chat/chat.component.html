@@ -1,0 +1,32 @@
+<body>
+  <div class="header">
+    <img height="40" src="../../../assets/chatapp.png" alt="chat image" />
+    <h1>Chat App </h1>
+  </div>
+  <div class="main-container">
+    <div class="user-list">
+      <div *ngFor="let user of users" class="user-card" (click)="showMessage(user.id)">
+        <strong>Name:</strong> {{ user.name }}<br>
+        <strong>Email:</strong> {{ user.email }}
+      </div>
+    </div>
+    <div class="container">
+      <form id="forms" enctype="multipart/form-data" name="forms">
+        <div class="text">
+          <div class="incoming message" *ngFor="let message of incoming">
+            <p>{{message}}</p>
+          </div>
+          <div class="outgoing message" *ngFor="let message of outgoing ">
+            <p>{{message}}</p>
+          </div>
+        </div>
+      </form>
+      <div class="content">
+      </div>
+      <div style="display: flex; justify-content: center;">
+        <input type="text" id="textarea" autofocus placeholder="Write a message..." class="message1" />
+        <button onclick="sendMessage()" class="btn">Send</button>
+      </div>
+    </div>
+  </div>
+</body>

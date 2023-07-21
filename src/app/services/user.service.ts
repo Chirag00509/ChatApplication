@@ -28,4 +28,28 @@ export class UserService {
 
   }
 
+  userList() : Observable<any[]> {
+
+    const token = localStorage.getItem('authToken');
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get<any[]>("https://localhost:7223/api/User", { headers : headers } );
+  }
+
+  getMessage(id: any) : Observable<any> {
+
+    const token = localStorage.getItem('authToken');
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get<any[]>(`https://localhost:7223/api/Message/${id}`, { headers : headers } );
+  }
+
 }
