@@ -20,14 +20,18 @@ const routes: Routes = [
     redirectTo : "/login",
     pathMatch : 'full'
   },
-  {
-    path : "chat/user/:id",
-    component : ConversationComponent,
-  },
+
   {
     path : "chat",
     component : ChatComponent,
-    canActivate : [authGuard]
+    canActivate : [authGuard],
+    children : [
+      {
+        path : "user/:id",
+        component : ConversationComponent,
+        outlet: 'childPopup'
+      },
+    ]
   }
 ];
 

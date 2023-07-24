@@ -11,6 +11,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class ConversationComponent {
 
+  users: any;
   allMessages: any[] = [];
   currentId: any;
   sendMessageForm!: FormGroup;
@@ -18,12 +19,16 @@ export class ConversationComponent {
   isDropdownOpen = false;
   displyMessage: string = ''
   editMessageId: number = 0;
+  id: number = 0
 
   constructor(private userService: UserService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.id = this.route.snapshot.params['id'];
     this.initializeForm();
-    this.showMessage
+    this.showMessage();
+    this.getUserList();
+
   }
 
   initializeForm() {
@@ -32,15 +37,29 @@ export class ConversationComponent {
     })
   }
 
+  getUserList() {
+    this.userService.userList().subscribe((res) => {
+      this.users = res[(this.id-2)];
+      console.log(this.users.name);
+    }, (error) => {
+      if (error instanceof HttpErrorResponse) {
+        const errorMessage = error.error.message;
+        if (errorMessage === undefined) {
+          alert("unauthorized access")
+        } else {
+          alert(errorMessage);
+        }
+      }
+    })
+  }
+
   getControl(name: any): AbstractControl | null {
     return this.sendMessageForm.get(name);
   }
 
   showMessage() {
-    let id = this.route.snapshot.params.['id'];
-
-    this.currentId = id;
-    this.userService.getMessage(id).subscribe((res) => {
+    this.currentId = this.id;
+    this.userService.getMessage(this.id).subscribe((res) => {
 
       this.allMessages = [];
 
