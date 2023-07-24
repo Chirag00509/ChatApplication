@@ -7,14 +7,16 @@ import { RegisterComponent } from './pages/register/register.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './pages/login/login.component';
-import { ChatComponent } from './pages/chat/chat.component'
+import { ChatComponent } from './pages/chat/chat.component';
+import { ConversationComponent } from './conversation/conversation.component'
 
 @NgModule({
   declarations: [
     AppComponent,
     RegisterComponent,
     LoginComponent,
-    ChatComponent
+    ChatComponent,
+    ConversationComponent
   ],
   imports: [
     BrowserModule,

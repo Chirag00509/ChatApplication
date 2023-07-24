@@ -1,41 +1,15 @@
-<body>
-  <div class="header">
-    <img height="40" src="../../../assets/chatapp.png" alt="chat image" />
-    <h1>Chat App </h1>
-  </div>
-  <div class="main-container">
     <div class="user-list">
+      <div class="header">
+        <img height="40" src="../../../assets/chatapp.png" alt="chat image" />
+        <h1>Chat App </h1>
+      </div>
       <div *ngFor="let user of users" class="user-card" (click)="showMessage(user.id)">
-        <strong>Name:</strong> {{ user.name }}<br>
+        <div class="username">
+          <div class="img">
+            <span>t</span>
+          </div>
+          <strong>Name:</strong> {{ user.name }}
+        </div>
         <strong>Email:</strong> {{ user.email }}
       </div>
     </div>
-    <div class="container">
-      <div class="text">
-        <span *ngFor="let message of allMessages" class="text1">
-          <div class="incoming message" *ngIf="message.senderId == currentId" (click)="showDropdown(message.id)">
-            <p>{{message.content}}</p>
-          </div>
-          <div class="outgoing message" *ngIf="message.senderId == 1" (click)="showDropdown(message.id)">
-            <p>{{message.content}}</p>
-            <div class="dropdown" *ngIf="selectedMessageId === message.id">
-              <div id="myDropdown" class="dropdown-content" [ngClass]="{ 'show': isDropdownOpen }">
-                <a (click)="editMessage(message.id, message.content)">Edit</a>
-                <a (click)="deleteMessage(message.id)">Delete</a>
-              </div>
-            </div>
-          </div>
-        </span>
-      </div>
-      <div class="content">
-      </div>
-      <form [formGroup]="sendMessageForm" (ngSubmit)="sendMessages(sendMessageForm.value)">
-        <div style="display: flex; justify-content: center;">
-          <input type="text" id="textarea" [(ngModel)]="displyMessage" placeholder="Write a message..." class="message1"
-            formControlName="message" autofocus />
-          <button class="btn" [disabled]="sendMessageForm.invalid">Send</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</body>

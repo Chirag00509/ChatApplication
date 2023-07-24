@@ -12,29 +12,11 @@ import { Router } from '@angular/router';
 export class ChatComponent implements OnInit {
 
   users: any[] = [];
-  allMessages: any[] = [];
-  currentId: any;
-  sendMessageForm!: FormGroup;
-  selectedMessageId: number | null = null;
-  isDropdownOpen = false;
-  displyMessage: string = ''
-  editMessageId: number = 0;
 
   constructor(private userService: UserService, private formBuilder: FormBuilder, private router: Router) { }
 
   ngOnInit(): void {
     this.getUserList();
-    this.initializeForm();
-  }
-
-  initializeForm() {
-    this.sendMessageForm = this.formBuilder.group({
-      message: new FormControl('', [Validators.required]),
-    })
-  }
-
-  getControl(name: any): AbstractControl | null {
-    return this.sendMessageForm.get(name);
   }
 
   getUserList() {
@@ -53,73 +35,6 @@ export class ChatComponent implements OnInit {
   }
 
   showMessage(id: any) {
-
-    this.currentId = id;
-    this.userService.getMessage(id).subscribe((res) => {
-
-      this.allMessages = [];
-
-      res.forEach((message: any) => {
-        const messageData = {
-          timestamp: message.timestamp,
-          content: message.content,
-          senderId: message.senderId,
-          id: message.id
-        };
-
-        this.allMessages.push(messageData);
-      });
-
-      this.allMessages.sort((a: any, b: any) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
-      this.router.navigate(['/chat', id]);
-
-    }, (error) => {
-      if (error instanceof HttpErrorResponse) {
-        const errorMessage = error.error.message;
-        alert(errorMessage);
-      }
-    });
+    this.router.navigate(['/chat/user', id]);
   }
-
-  sendMessages(data: any) {
-    if (this.editMessageId == 0) {
-      this.userService.sendMesage(data, this.currentId).subscribe((res) => {
-        window.location.reload();
-      }, (error) => {
-        if (error instanceof HttpErrorResponse) {
-          const errorMessage = error.error.message;
-          alert(errorMessage);
-        }
-      })
-    } else {
-      this.userService.editMessage(this.editMessageId, this.displyMessage).subscribe((res) => {
-        alert(res.message);
-        window.location.reload();
-      })
-    }
-  }
-
-  deleteMessage(id: number) {
-    this.userService.deleteMessage(id).subscribe((res) => {
-      alert(res.message);
-      window.location.reload();
-    }, (error) => {
-      if (error instanceof HttpErrorResponse) {
-        const errorMessage = error.error.message;
-        alert(errorMessage);
-      }
-    })
-  }
-
-  editMessage(id: number, message: any) {
-    this.displyMessage = message;
-    this.editMessageId = id;
-  }
-
-  showDropdown(messageId: any) {
-    this.isDropdownOpen = !this.isDropdownOpen;
-    this.selectedMessageId = this.selectedMessageId === messageId ? null : messageId;
-  }
-
-
 }

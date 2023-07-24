@@ -4,6 +4,7 @@ import { RegisterComponent } from './pages/register/register.component';
 import { LoginComponent } from './pages/login/login.component';
 import { ChatComponent } from './pages/chat/chat.component';
 import { authGuard } from './services/auth/auth.guard';
+import { ConversationComponent } from './conversation/conversation.component';
 
 const routes: Routes = [
   {
@@ -20,9 +21,8 @@ const routes: Routes = [
     pathMatch : 'full'
   },
   {
-    path : "chat/:id",
-    component : ChatComponent,
-    canActivate : [authGuard]
+    path : "chat/user/:id",
+    component : ConversationComponent,
   },
   {
     path : "chat",
