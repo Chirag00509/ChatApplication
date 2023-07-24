@@ -23,6 +23,7 @@ export class ConversationComponent implements OnInit {
   isDropdownOpen = false;
   displyMessage: string = ''
   editMessageId: number = 0;
+  messageEdit:boolean = false;
 
   constructor(private userService: UserService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute) { }
 
@@ -105,27 +106,22 @@ export class ConversationComponent implements OnInit {
     });
   }
 
-  sendMessages(data: any) {
-    if (this.editMessageId == 0) {
-      this.userService.sendMesage(data, this.currentId).subscribe((res) => {
-        window.location.reload();
-      }, (error) => {
-        if (error instanceof HttpErrorResponse) {
-          const errorMessage = error.error.message;
-          alert(errorMessage);
-        }
-      })
-    } else {
-      this.userService.editMessage(this.editMessageId, this.displyMessage).subscribe((res) => {
-        alert(res.message);
-        window.location.reload();
-      })
-    }
-  }
-
-  deleteMessage(id: number) {
-    this.userService.deleteMessage(id).subscribe((res) => {
+  saveMessage(event: any, id: any) {
+    event.preventDefault();
+    this.userService.editMessage(id, this.displyMessage).subscribe((res) => {
       alert(res.message);
+      window.location.reload();
+      this.messageEdit = false
+    })
+   }
+
+   cancelEdit(event: any) {
+    event.preventDefault();
+    this.messageEdit = false
+   }
+
+  sendMessages(data: any) {
+    this.userService.sendMesage(data, this.currentId).subscribe((res) => {
       window.location.reload();
     }, (error) => {
       if (error instanceof HttpErrorResponse) {
@@ -135,9 +131,25 @@ export class ConversationComponent implements OnInit {
     })
   }
 
+  deleteMessage(id: number) {
+    const isConfirmed = confirm("Are you sure you want to delete this message?");
+    if(isConfirmed) {
+      this.userService.deleteMessage(id).subscribe((res) => {
+        alert(res.message);
+        window.location.reload();
+      }, (error) => {
+        if (error instanceof HttpErrorResponse) {
+          const errorMessage = error.error.message;
+          alert(errorMessage);
+        }
+      })
+    }
+  }
+
   editMessage(id: number, message: any) {
     this.displyMessage = message;
     this.editMessageId = id;
+    this.messageEdit = true;
   }
 
   showDropdown(messageId: any) {

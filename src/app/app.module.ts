@@ -8,7 +8,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './pages/login/login.component';
 import { ChatComponent } from './pages/chat/chat.component';
-import { ConversationComponent } from './pages/conversation/conversation.component'
+import { ConversationComponent } from './pages/conversation/conversation.component';
+import { LoggingComponent } from './pages/logging/logging.component'
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { ConversationComponent } from './pages/conversation/conversation.compone
     RegisterComponent,
     LoginComponent,
     ChatComponent,
-    ConversationComponent
+    ConversationComponent,
+    LoggingComponent
   ],
   imports: [
     BrowserModule,

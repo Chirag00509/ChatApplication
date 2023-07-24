@@ -5,6 +5,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { ChatComponent } from './pages/chat/chat.component';
 import { authGuard } from './services/auth/auth.guard';
 import { ConversationComponent } from './pages/conversation/conversation.component';
+import { LoggingComponent } from './pages/logging/logging.component';
 
 const routes: Routes = [
   {
@@ -32,6 +33,10 @@ const routes: Routes = [
         outlet: 'childPopup'
       },
     ]
+  },
+  {
+    path : "logging",
+    component : LoggingComponent
   }
 ];
 
