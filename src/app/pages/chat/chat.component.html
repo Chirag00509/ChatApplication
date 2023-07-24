@@ -11,22 +11,31 @@
       </div>
     </div>
     <div class="container">
-      <form id="forms" enctype="multipart/form-data" name="forms">
-        <div class="text">
-          <div class="incoming message" *ngFor="let message of incoming">
-            <p>{{message}}</p>
+      <div class="text">
+        <span *ngFor="let message of allMessages" class="text1">
+          <div class="incoming message" *ngIf="message.senderId == currentId" (click)="showDropdown(message.id)">
+            <p>{{message.content}}</p>
           </div>
-          <div class="outgoing message" *ngFor="let message of outgoing ">
-            <p>{{message}}</p>
+          <div class="outgoing message" *ngIf="message.senderId == 1" (click)="showDropdown(message.id)">
+            <p>{{message.content}}</p>
+            <div class="dropdown" *ngIf="selectedMessageId === message.id">
+              <div id="myDropdown" class="dropdown-content" [ngClass]="{ 'show': isDropdownOpen }">
+                <a (click)="editMessage(message.id)">Edit</a>
+                <a (click)="deleteMessage(message.id)">Delete</a>
+              </div>
+            </div>
           </div>
-        </div>
-      </form>
+        </span>
+      </div>
       <div class="content">
       </div>
-      <div style="display: flex; justify-content: center;">
-        <input type="text" id="textarea" autofocus placeholder="Write a message..." class="message1" />
-        <button onclick="sendMessage()" class="btn">Send</button>
-      </div>
+      <form [formGroup]="sendMessageForm" (ngSubmit)="sendMessages(sendMessageForm.value)">
+        <div style="display: flex; justify-content: center;">
+          <input type="text" id="textarea" autofocus placeholder="Write a message..." class="message1"
+            formControlName="message" />
+          <button class="btn" [disabled]="sendMessageForm.invalid">Send</button>
+        </div>
+      </form>
     </div>
   </div>
 </body>

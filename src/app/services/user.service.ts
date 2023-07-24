@@ -52,4 +52,32 @@ export class UserService {
     return this.http.get<any[]>(`https://localhost:7223/api/Message/${id}`, { headers : headers } );
   }
 
+  sendMesage(data: any, id: any) : Observable<any> {
+    const token = localStorage.getItem('authToken');
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+
+    const body = {
+      "receiverId" : id,
+      "content" : data.message
+    }
+
+    return this.http.post<any>("https://localhost:7223/api/Message", body, { headers : headers })
+  }
+
+  deleteMessage(id: any) : Observable<any> {
+    const token = localStorage.getItem('authToken');
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.delete<any>("");
+
+  }
+
 }

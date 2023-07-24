@@ -80,12 +80,15 @@ input {
 }
 
 .text {
-  height: 500px;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
   overflow-y: auto;
   padding-top: 35px;
+  height: 500px;
+}
+
+.text1{
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
 }
 
 .incoming {
@@ -148,3 +151,40 @@ input {
 .user-list-container {
   margin-left: 20px;
 }
+.dropbtn {
+  background-color: #3498DB;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropbtn:hover, .dropbtn:focus {
+  background-color: #2980B9;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 10px;
+  background-color: #f1f1f1;
+  overflow: hidden;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown a:hover {background-color: #ddd;}
+
+.show {display: block;}
