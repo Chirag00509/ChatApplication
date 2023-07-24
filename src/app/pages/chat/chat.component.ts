@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -17,8 +17,10 @@ export class ChatComponent implements OnInit {
   sendMessageForm!: FormGroup;
   selectedMessageId: number | null = null;
   isDropdownOpen = false;
+  displyMessage: string = ''
+  editMessageId: number = 0;
 
-  constructor(private userService: UserService, private formBuilder : FormBuilder, private router : Router ) { }
+  constructor(private userService: UserService, private formBuilder: FormBuilder, private router: Router) { }
 
   ngOnInit(): void {
     this.getUserList();
@@ -27,11 +29,11 @@ export class ChatComponent implements OnInit {
 
   initializeForm() {
     this.sendMessageForm = this.formBuilder.group({
-      message : new FormControl('', [ Validators.required ]),
+      message: new FormControl('', [Validators.required]),
     })
   }
 
-  getControl(name: any) : AbstractControl | null  {
+  getControl(name: any): AbstractControl | null {
     return this.sendMessageForm.get(name);
   }
 
@@ -69,6 +71,7 @@ export class ChatComponent implements OnInit {
       });
 
       this.allMessages.sort((a: any, b: any) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
+      this.router.navigate(['/chat', id]);
 
     }, (error) => {
       if (error instanceof HttpErrorResponse) {
@@ -79,7 +82,27 @@ export class ChatComponent implements OnInit {
   }
 
   sendMessages(data: any) {
-    this.userService.sendMesage(data, this.currentId).subscribe((res) => {
+    if (this.editMessageId == 0) {
+      this.userService.sendMesage(data, this.currentId).subscribe((res) => {
+        window.location.reload();
+      }, (error) => {
+        if (error instanceof HttpErrorResponse) {
+          const errorMessage = error.error.message;
+          alert(errorMessage);
+        }
+      })
+    } else {
+      this.userService.editMessage(this.editMessageId, this.displyMessage).subscribe((res) => {
+        alert(res.message);
+        window.location.reload();
+      })
+    }
+  }
+
+  deleteMessage(id: number) {
+    this.userService.deleteMessage(id).subscribe((res) => {
+      alert(res.message);
+      window.location.reload();
     }, (error) => {
       if (error instanceof HttpErrorResponse) {
         const errorMessage = error.error.message;
@@ -88,21 +111,15 @@ export class ChatComponent implements OnInit {
     })
   }
 
-  deleteMessage(id: any) {
-    console.log(id);
+  editMessage(id: number, message: any) {
+    this.displyMessage = message;
+    this.editMessageId = id;
   }
 
-  editMessage(id: any) {
-    console.log(id);
-  }
-
-  showDropdown(messageId : any) {
+  showDropdown(messageId: any) {
     this.isDropdownOpen = !this.isDropdownOpen;
     this.selectedMessageId = this.selectedMessageId === messageId ? null : messageId;
   }
 
-
-  toggleDropdown(): void {
-  }
 
 }

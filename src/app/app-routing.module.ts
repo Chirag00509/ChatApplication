@@ -20,6 +20,11 @@ const routes: Routes = [
     pathMatch : 'full'
   },
   {
+    path : "chat/:id",
+    component : ChatComponent,
+    canActivate : [authGuard]
+  },
+  {
     path : "chat",
     component : ChatComponent,
     canActivate : [authGuard]

@@ -76,8 +76,26 @@ export class UserService {
       'Authorization': `Bearer ${token}`
     });
 
-    return this.http.delete<any>("");
+    return this.http.delete<any>(`https://localhost:7223/api/Message/${id}`, { headers : headers });
 
+  }
+
+  editMessage(id: number, message: string) :  Observable<any> {
+    console.log(id);
+    console.log(message);
+
+    const body = {
+      "content" : message
+    }
+
+    const token = localStorage.getItem('authToken');
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.put<any>(`https://localhost:7223/api/Message/${id}`, body, { headers : headers } );
   }
 
 }
