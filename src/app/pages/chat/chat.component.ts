@@ -22,6 +22,7 @@ export class ChatComponent implements OnInit {
   getUserList() {
     this.userService.userList().subscribe((res) => {
       this.users = res;
+
     }, (error) => {
       if (error instanceof HttpErrorResponse) {
         const errorMessage = error.error.message;

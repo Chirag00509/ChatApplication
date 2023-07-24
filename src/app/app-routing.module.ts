@@ -4,7 +4,7 @@ import { RegisterComponent } from './pages/register/register.component';
 import { LoginComponent } from './pages/login/login.component';
 import { ChatComponent } from './pages/chat/chat.component';
 import { authGuard } from './services/auth/auth.guard';
-import { ConversationComponent } from './conversation/conversation.component';
+import { ConversationComponent } from './pages/conversation/conversation.component';
 
 const routes: Routes = [
   {

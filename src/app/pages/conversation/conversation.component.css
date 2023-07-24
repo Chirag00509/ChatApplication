@@ -13,13 +13,9 @@
   height: 100vh;
 }
 
-.content {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 20px;
-}
+/* .background{
+  background: url("../../assets/peakpx.jpg");
+} */
 
 input {
   width: 70%;
@@ -58,7 +54,8 @@ input {
 .text {
   overflow-y: auto;
   padding-top: 35px;
-  height: 475px;
+  height: 492px;
+  color: #A6ACAF;
 }
 
 .text1{
@@ -133,7 +130,7 @@ input {
 
 .messageHeader{
   border-left: 1px solid lightgray;
-  background-color: #f5f5f5;
+  background-color: #f1f1f1;
   height: 80px;
   display: flex;
   align-items: center;

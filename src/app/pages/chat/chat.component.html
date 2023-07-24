@@ -8,7 +8,7 @@
       <div *ngFor="let user of users" class="user-card" (click)="showMessage(user.id)">
         <div class="username">
           <div class="img">
-            <span>t</span>
+            <span style="font-weight: 600;">{{ user.name.charAt(0) | lowercase }}</span>
           </div>
           <p style="font-weight: 600;"> {{ user.name }} </p>
         </div>

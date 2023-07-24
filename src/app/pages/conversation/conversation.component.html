@@ -1,16 +1,19 @@
 <div class="container">
   <div class="messageHeader">
     <div class="rounderdCricle">
-      <span>t</span>
+      <span style="font-weight: 600;">{{sortName | lowercase}}</span>
     </div>
-    <!-- <p style="font-weight: 600;"> {{ users.name }} </p> -->
+    <p style="font-weight: 600;"> {{ users }} </p>
   </div>
+  <div class="background">
   <div class="text">
     <span *ngFor="let message of allMessages" class="text1">
       <div class="incoming message" *ngIf="message.senderId == currentId" (click)="showDropdown(message.id)">
+        <h4>{{users}}</h4>
         <p>{{message.content}}</p>
       </div>
-      <div class="outgoing message" *ngIf="message.senderId == 1" (click)="showDropdown(message.id)">
+      <div class="outgoing message" *ngIf="message.senderId == userId" (click)="showDropdown(message.id)">
+        <h4>{{userName}}</h4>
         <p>{{message.content}}</p>
         <div class="dropdown" *ngIf="selectedMessageId === message.id">
           <div id="myDropdown" class="dropdown-content" [ngClass]="{ 'show': isDropdownOpen }">
@@ -21,13 +24,12 @@
       </div>
     </span>
   </div>
-  <div class="content">
-  </div>
   <form [formGroup]="sendMessageForm" (ngSubmit)="sendMessages(sendMessageForm.value)">
     <div style="display: flex; justify-content: center;">
-      <input type="text" id="textarea" [(ngModel)]="displyMessage" placeholder="Write a message..." class="message1"
+      <input type="text" id="textarea" style="margin-bottom: 25px;" [(ngModel)]="displyMessage" placeholder="Write a message..." class="message1"
         formControlName="message" autofocus />
-      <button class="btn" [disabled]="sendMessageForm.invalid">Send</button>
+      <button class="btn" [disabled]="sendMessageForm.invalid" style="margin-bottom: 25px;">Send</button>
     </div>
   </form>
+  </div>
 </div>

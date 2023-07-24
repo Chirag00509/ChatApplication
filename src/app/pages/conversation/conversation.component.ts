@@ -1,46 +1,67 @@
-import { Component } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { UserService } from '../services/user.service';
+import { UserService } from '../../services/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import jwt_decode from 'jwt-decode';
 
 @Component({
   selector: 'app-conversation',
   templateUrl: './conversation.component.html',
   styleUrls: ['./conversation.component.css']
 })
-export class ConversationComponent {
+export class ConversationComponent implements OnInit {
 
   users: any;
+  sortName: any
   allMessages: any[] = [];
   currentId: any;
+  userId: any;
+  userName: any;
   sendMessageForm!: FormGroup;
   selectedMessageId: number | null = null;
   isDropdownOpen = false;
   displyMessage: string = ''
   editMessageId: number = 0;
-  id: number = 0
 
   constructor(private userService: UserService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.id = this.route.snapshot.params['id'];
+    this.route.params.subscribe(params => {
+      const userId = +params['id'];
+      this.showMessage(userId);
+      this.getUserList(userId);
+    });
     this.initializeForm();
-    this.showMessage();
-    this.getUserList();
-
   }
-
   initializeForm() {
     this.sendMessageForm = this.formBuilder.group({
       message: new FormControl('', [Validators.required]),
     })
   }
 
-  getUserList() {
+  getUserList(id: number) {
+
+    const jwtToken = localStorage.getItem('authToken');
+
+    if (!jwtToken) {
+      console.error('JWT Token not found in local storage');
+      return;
+    }
+    const decodedToken: any = jwt_decode(jwtToken);
+
+    const Id = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'];
+    const name = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
+
+    this.userId = Id;
+    this.userName = name;
+
     this.userService.userList().subscribe((res) => {
-      this.users = res[(this.id-2)];
-      console.log(this.users.name);
+
+      const user = res.find(user => user.id === id);
+      this.users = user.name;
+      this.sortName = this.users.charAt(0);
+
     }, (error) => {
       if (error instanceof HttpErrorResponse) {
         const errorMessage = error.error.message;
@@ -57,9 +78,11 @@ export class ConversationComponent {
     return this.sendMessageForm.get(name);
   }
 
-  showMessage() {
-    this.currentId = this.id;
-    this.userService.getMessage(this.id).subscribe((res) => {
+  showMessage(id: number) {
+    // let id = this.route.snapshot.params['id'];
+
+    this.currentId = id;
+    this.userService.getMessage(id).subscribe((res) => {
 
       this.allMessages = [];
 
