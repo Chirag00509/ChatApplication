@@ -27,7 +27,8 @@ export class ChatComponent implements OnInit {
       if (error instanceof HttpErrorResponse) {
         const errorMessage = error.error.message;
         if (errorMessage === undefined) {
-          alert("unauthorized access")
+          alert("unauthorized access");
+          this.router.navigateByUrl("/login")
         } else {
           alert(errorMessage);
         }
