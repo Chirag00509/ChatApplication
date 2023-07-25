@@ -14,10 +14,10 @@
         </div>
         <div class="outgoing message" *ngIf="message.senderId == userId" (click)="showDropdown(message.id)">
           <h4>{{userName}}</h4>
-          <p>{{message.content}}</p>
+          <p *ngIf="!messageEdit">{{message.content}}</p>
           <div class="dropdown" *ngIf="selectedMessageId === message.id">
             <div id="myDropdown" class="dropdown-content" [ngClass]="{ 'show': isDropdownOpen }">
-              <a (click)="editMessage(message.id, message.content)">Edit</a>
+              <a (click)="editMessage(message)">Edit</a>
               <a (click)="deleteMessage(message.id)">Delete</a>
             </div>
           </div>
@@ -33,7 +33,7 @@
     </div>
     <form [formGroup]="sendMessageForm" (ngSubmit)="sendMessages(sendMessageForm.value)">
       <div style="display: flex; justify-content: center;">
-        <input type="text" id="textarea" style="margin-bottom: 25px;" placeholder="Write a message..." class="message1"
+        <input type="text" id="textarea" style="margin-bottom: 25px;" [(ngModel)]="showMessageInput" placeholder="Write a message..." class="message1"
           formControlName="message" autofocus />
         <button class="btn" [disabled]="sendMessageForm.invalid" style="margin-bottom: 25px;">Send</button>
       </div>

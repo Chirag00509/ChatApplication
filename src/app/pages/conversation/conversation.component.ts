@@ -22,6 +22,7 @@ export class ConversationComponent implements OnInit {
   selectedMessageId: number | null = null;
   isDropdownOpen = false;
   displyMessage: string = ''
+  showMessageInput: string = ''
   editMessageId: number = 0;
   messageEdit:boolean = false;
 
@@ -29,9 +30,9 @@ export class ConversationComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      const userId = +params['id'];
-      this.showMessage(userId);
-      this.getUserList(userId);
+      this.currentId = +params['id'];
+      this.showMessage(this.currentId);
+      this.getUserList(this.currentId);
     });
     this.initializeForm();
   }
@@ -80,24 +81,9 @@ export class ConversationComponent implements OnInit {
   }
 
   showMessage(id: number) {
-    // let id = this.route.snapshot.params['id'];
-
-    this.currentId = id;
     this.userService.getMessage(id).subscribe((res) => {
-
       this.allMessages = [];
-
-      res.forEach((message: any) => {
-        const messageData = {
-          timestamp: message.timestamp,
-          content: message.content,
-          senderId: message.senderId,
-          id: message.id
-        };
-
-        this.allMessages.push(messageData);
-      });
-      this.allMessages.sort((a: any, b: any) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
+      this.allMessages = res;
     }, (error) => {
       if (error instanceof HttpErrorResponse) {
         const errorMessage = error.error.message;
@@ -110,7 +96,7 @@ export class ConversationComponent implements OnInit {
     event.preventDefault();
     this.userService.editMessage(id, this.displyMessage).subscribe((res) => {
       alert(res.message);
-      window.location.reload();
+      this.showMessage(this.currentId);
       this.messageEdit = false
     })
    }
@@ -122,7 +108,8 @@ export class ConversationComponent implements OnInit {
 
   sendMessages(data: any) {
     this.userService.sendMesage(data, this.currentId).subscribe((res) => {
-      window.location.reload();
+      this.showMessage(res.receiverId);
+      this.showMessageInput=""
     }, (error) => {
       if (error instanceof HttpErrorResponse) {
         const errorMessage = error.error.message;
@@ -135,8 +122,8 @@ export class ConversationComponent implements OnInit {
     const isConfirmed = confirm("Are you sure you want to delete this message?");
     if(isConfirmed) {
       this.userService.deleteMessage(id).subscribe((res) => {
+        this.showMessage(this.currentId);
         alert(res.message);
-        window.location.reload();
       }, (error) => {
         if (error instanceof HttpErrorResponse) {
           const errorMessage = error.error.message;
@@ -146,9 +133,9 @@ export class ConversationComponent implements OnInit {
     }
   }
 
-  editMessage(id: number, message: any) {
-    this.displyMessage = message;
-    this.editMessageId = id;
+  editMessage(message:any) {
+    this.displyMessage = message.content;
+    this.editMessageId = message.id;
     this.messageEdit = true;
   }
 
